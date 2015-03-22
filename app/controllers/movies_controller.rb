@@ -3,6 +3,13 @@ class MoviesController < ApplicationController
 
   def index
     @movies = Movie.all
+    if(params.has_key?(:sort_by))
+      if params[:sort_by] == "title"
+        @movies.sort_by! {|obj| obj.title}
+      elsif params[:sort_by] == "release_date"
+        @movies.sort_by! {|obj| obj.release_date}
+      end
+    end
   end
 
   def show
