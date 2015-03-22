@@ -2,15 +2,31 @@
 class MoviesController < ApplicationController
 
   def index
+    # variables
+    puts params
     @hilite = "hilite"
     @movies = Movie.all
-    if(params.has_key?(:sort_by))
+    @all_ratings = Movie.all_ratings
+    
+    # for sorting on title and date
+    if (params.has_key?(:sort_by))
       if params[:sort_by] == "title"
         @movies.sort_by! {|obj| obj.title}
       elsif params[:sort_by] == "release_date"
         @movies.sort_by! {|obj| obj.release_date}
       end
     end
+
+    # for filtering on ratings
+    if (params.has_key?(:ratings))
+      ratings_temp = params[:ratings]
+      ratings = []
+      for x in ratings_temp do
+        ratings.append(x[0].to_s)
+      end
+      @movies = Movie.find_all_by_rating(ratings)
+    end
+  
   end
 
   def show
