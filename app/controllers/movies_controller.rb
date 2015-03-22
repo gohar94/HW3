@@ -7,6 +7,7 @@ class MoviesController < ApplicationController
     @hilite = "hilite"
     @movies = Movie.all
     @all_ratings = Movie.all_ratings
+    @checked_ratings = @all_ratings
     
     # for sorting on title and date
     if (params.has_key?(:sort_by))
@@ -18,7 +19,6 @@ class MoviesController < ApplicationController
     end
 
     # for filtering on ratings
-    @checked_ratings = @all_ratings
     if (params.has_key?(:ratings))
       ratings_temp = params[:ratings]
       ratings = []
@@ -26,9 +26,8 @@ class MoviesController < ApplicationController
         ratings.append(x[0].to_s)
       end
       @checked_ratings = ratings
-      puts "ratings checked"
-      puts @checked_ratings
-      @movies = Movie.find_all_by_rating(ratings)
+      ratings_filtered_movies = Movie.find_all_by_rating(ratings)
+      @movies = @movies & ratings_filtered_movies
     end
   
   end
