@@ -18,12 +18,16 @@ class MoviesController < ApplicationController
     end
 
     # for filtering on ratings
+    @checked_ratings = @all_ratings
     if (params.has_key?(:ratings))
       ratings_temp = params[:ratings]
       ratings = []
       for x in ratings_temp do
         ratings.append(x[0].to_s)
       end
+      @checked_ratings = ratings
+      puts "ratings checked"
+      puts @checked_ratings
       @movies = Movie.find_all_by_rating(ratings)
     end
   
