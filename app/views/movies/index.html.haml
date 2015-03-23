@@ -24,5 +24,5 @@
   - @all_ratings.each do |rating|
     = rating
     = check_box_tag "ratings[#{rating}]", 1, @checked_ratings.include?(rating.to_s)
-  = hidden_field_tag 'sort_by', 'release_date'
+  / = hidden_field_tag 'sort_by', 'release_date'
   = submit_tag 'Refresh', id: "ratings_submit"
